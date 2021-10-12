@@ -580,7 +580,7 @@ def calmar_ratio(returns, period=DAILY, annualization=None):
     See https://en.wikipedia.org/wiki/Calmar_ratio for more details.
     """
 
-    max_dd = max_drawdown(returns=returns)
+    max_dd = max_drawdown(returns=returns).values
     if max_dd < 0:
         temp = annual_return(
             returns=returns,
@@ -590,7 +590,7 @@ def calmar_ratio(returns, period=DAILY, annualization=None):
     else:
         return np.nan
 
-    if np.isinf(temp):
+    if np.isinf(temp.values):
         return np.nan
 
     return temp
@@ -640,8 +640,8 @@ def omega_ratio(returns, risk_free=0.0, required_return=0.0,
 
     returns_less_thresh = returns - risk_free - return_threshold
 
-    numer = sum(returns_less_thresh[returns_less_thresh > 0.0])
-    denom = -1.0 * sum(returns_less_thresh[returns_less_thresh < 0.0])
+    numer = returns_less_thresh[returns_less_thresh > 0.0].sum().item()
+    denom = -1.0 * returns_less_thresh[returns_less_thresh < 0.0].sum().item()
 
     if denom > 0.0:
         return numer / denom
