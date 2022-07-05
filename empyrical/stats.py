@@ -580,7 +580,7 @@ def calmar_ratio(returns, period=DAILY, annualization=None):
     See https://en.wikipedia.org/wiki/Calmar_ratio for more details.
     """
 
-    max_dd = max_drawdown(returns=returns).values
+    max_dd = max_drawdown(returns=returns)
     if max_dd < 0:
         temp = annual_return(
             returns=returns,
