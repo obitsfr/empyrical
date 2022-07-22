@@ -397,7 +397,7 @@ def max_drawdown(returns, out=None):
     if returns_1d:
         out = out.item()
     elif allocated_output and isinstance(returns, pd.DataFrame):
-        out = pd.Series(out)
+        out = pd.Series(out).values  #TODO : Voir avec Alessandro pour l'ajout du point values quand on on renvoie une série
 
     return out
 
@@ -579,8 +579,8 @@ def calmar_ratio(returns, period=DAILY, annualization=None):
     -----
     See https://en.wikipedia.org/wiki/Calmar_ratio for more details.
     """
-
-    max_dd = max_drawdown(returns=returns)
+    # TODO : rajouter une action en fonction de si c'est un df ou un np
+    max_dd = max_drawdown(returns=returns)  #TODO : Suppression du values car message d'erreur float n'a pas d'attribut values.
     if max_dd < 0:
         temp = annual_return(
             returns=returns,
@@ -590,7 +590,7 @@ def calmar_ratio(returns, period=DAILY, annualization=None):
     else:
         return np.nan
 
-    if np.isinf(temp.values):
+    if np.isinf(temp):  #TODO : Message pour Alessandro
         return np.nan
 
     return temp
