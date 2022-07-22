@@ -596,8 +596,8 @@ def calmar_ratio(returns, period=DAILY, annualization=None):
     return temp
 
 
-def omega_ratio(returns, risk_free=0.0, required_return=0.0,
-                annualization=APPROX_BDAYS_PER_YEAR):
+def omega_ratio(returns, risk_free=0.0, required_return=0.0, period=DAILY,
+                annualization=None):
     """Determines the Omega ratio of a strategy.
 
     Parameters
@@ -626,6 +626,7 @@ def omega_ratio(returns, risk_free=0.0, required_return=0.0,
     See https://en.wikipedia.org/wiki/Omega_ratio for more details.
 
     """
+    annualization = annualization_factor(period, annualization)
 
     if len(returns) < 2:
         return np.nan
